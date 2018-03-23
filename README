@@ -52,15 +52,17 @@ connector that makes connecting Pi Hats possible.
    
    Add the following lines to project's local.conf file.
 
+  # Enable FBTFT support                                           
+  FB_PITFT_ENABLED  = "1"
+
   # Specify display type (ili9340 & ili9340 tested), default is ili9341
   FB_DRIVER_NAME = "ili9340"
 
   # Specify the display name (cc6ul_adafruit22_sb & cc6ul_adafruit28_sb tested), default is cc6ul_adafruit28_sb
   FB_DISPLAY_NAME = "cc6ul_adafruit22a_sb"
 
-  # Uncomment for capacitive touchscreen (FocalTech FT6236) support 
-  #FB_PITFT_ENABLED = "1"
-
+  # Uncomment to enable capacitive (Focaltech FT6236) touch
+  #FB_PITFT_CAP_TOUCH = "1"
 
 4. Build the image
 
