@@ -1,0 +1,121 @@
+OpenEmbedded/Yocto Digi Embedded FBTFT layer
+============================================
+
+This layer provides support for several Adafruit PiTFT displays for use with Digi hardware
+and Yocto Digi's BSP layers.
+
+This layer depends on the following layers:
+
+https://github.com/digi-embedded/meta-digi
+
+
+Supported Platforms
+-------------------
+
+  * Digi ConnectCore 6UL SBC Express
+    * [Digi P/N CC-WMX6UL-START](http://www.digi.com/products/models/cc-wmx6ul-start)
+
+
+Installation
+------------
+1. Install Digi Embedded Yocto distribution
+
+    https://github.com/digi-embedded/dey-manifest#installing-digi-embedded-yocto
+
+2. Clone the *meta-digi-fbtft* Yocto layers under the Digi Embedded Yocto source 
+   directory.
+
+        #> cd <DEY-INSTALLDIR>/sources
+        #> git clone git://githubcom/chaegle/meta-digi-fbtft -b morty
+
+
+Create and build a project
+--------------------------
+
+We will use a ConnectCore 6UL SBC Express. This module has an expansion
+connector that makes connecting Pi Hats possible.
+
+1. Create a project for ConnectCore 6UL SBC Express
+
+   #> mkdir <project-dir>
+   #> cd <project-dir>
+   #> . <DEY-INSTALLDIR>/mkproject.sh -p ccimx6ulstarter
+
+2. Add the *meta-digi-fbtft* layer to the project's
+  *bblayers.conf* configuration file
+
+   #> vi <project-dir>/conf/bblayers.conf
+
+   <DEY-INSTALLDIR>/sources/meta-digi-fbtft
+
+3. Configure the project.
+   
+   Add the following lines to project's local.conf file.
+
+  # Specify display type (ili9340 & ili9340 tested), default is ili9341
+  FB_DRIVER_NAME = "ili9340"
+
+  # Specify the display name (cc6ul_adafruit22_sb & cc6ul_adafruit28_sb tested), default is cc6ul_adafruit28_sb
+  FB_DISPLAY_NAME = "cc6ul_adafruit22a_sb"
+
+  # Uncomment for capacitive touchscreen (FocalTech FT6236) support 
+  #FB_PITFT_ENABLED = "1"
+
+
+4. Build the image
+
+   #> bitbake dey-image-qt
+
+
+Supported Adafruit PiTFT Hats
+---------------------------
+
+Connect your Adafruit PiTFT Hat to the ConnectCore 6UL SBC Express using the
+expansion connector. This is a 2-row 40-pins connector located on one side
+of the board.
+
+For more information about the expansion connector refer to the ConnectCore 6UL SBC Express
+Hardware Reference Manual.
+
+The following Adafruit PiTFT Hats have been tested with this layer.
+
+- 320x240 2.2" TFT - No touch 
+  - Adafruit Product ID: 2315
+- 320x240 2.8" TFT + Capacitive Touchscreen 
+  - Adafruit Product ID: 2423
+- 320x240 2.8" TFT + Resistive Touchscreen
+  - Adafruit Product ID: 2298 
+
+Known Limitations
+-----------------
+
+Resistive touch is not currently supported
+
+
+
+Enable PiTFT Hats
+-----------------
+
+Add the following lines to the Yocto project's local.conf file.
+
+
+# Specify display type (ili9340 & ili9340 tested), default is ili9341
+FB_DRIVER_NAME = "ili9340"
+
+# Specify the display name (cc6ul_adafruit22_sb & cc6ul_adafruit28_sb tested), 
+# if left undefined the default is cc6ul_adafruit28_sb
+FB_DISPLAY_NAME = "cc6ul_adafruit22a_sb"
+
+# Enable support for Adafruit PiTFT Hats 
+FB_PITFT_ENABLED = "1"
+
+# enable capacitive touch (FocalTech FT6236)
+FB_PITFT_CAP_TOUCH = "1"
+
+
+
+License
+-------
+
+INSERT APPROPRIATE LICENSE STATEMENT HERE
+

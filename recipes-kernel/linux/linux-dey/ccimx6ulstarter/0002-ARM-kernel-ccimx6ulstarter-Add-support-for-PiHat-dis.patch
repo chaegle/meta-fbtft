@@ -1,0 +1,61 @@
+From 74f646f51282f184b675ae561c8b129099ba526d Mon Sep 17 00:00:00 2001
+From: Cameron Haegle <cameronh@digi.com>
+Date: Fri, 23 Mar 2018 10:48:43 -0500
+Subject: [PATCH 2/3] ARM kernel ccimx6ulstarter Add support for PiHat displays
+
+---
+ drivers/staging/fbtft/fbtft_device.c | 38 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+diff --git a/drivers/staging/fbtft/fbtft_device.c b/drivers/staging/fbtft/fbtft_device.c
+index e921183..df8e312 100644
+--- a/drivers/staging/fbtft/fbtft_device.c
++++ b/drivers/staging/fbtft/fbtft_device.c
+@@ -273,6 +273,44 @@ static int waveshare32b_init_sequence[] = {
+ /* Supported displays in alphabetical order */
+ static struct fbtft_device_display displays[] = {
+ 	{
++                .name = "cc6ul_adafruit22a_sb",
++                .spi = &(struct spi_board_info) {
++                        .modalias = "fb_ili9340",
++                        .max_speed_hz = 32000000,
++                        .mode = SPI_MODE_0,
++                        .chip_select = 0,
++                        .platform_data = &(struct fbtft_platform_data) {
++                                .display = {
++                                        .buswidth = 8,
++                                        .backlight = 1,
++                                },
++                                .bgr = true,
++                                .gpios = (const struct fbtft_gpio []) {
++                                        { "dc", 77 },
++                                        {},
++                                },
++                        }
++                }
++        }, {
++                .name = "cc6ul_adafruit28_sb",
++                .spi = &(struct spi_board_info) {
++                        .modalias = "fb_ili9341",
++                        .max_speed_hz = 32000000,
++                        .mode = SPI_MODE_0,
++                        .chip_select = 0,
++                        .platform_data = &(struct fbtft_platform_data) {
++                                .display = {
++                                        .buswidth = 8,
++                                        .backlight = 1,
++                                },
++                                .bgr = true,
++                                .gpios = (const struct fbtft_gpio []) {
++                                        { "dc", 77 },
++                                        {},
++                                },
++                        }
++                }
++        }, {
+ 		.name = "adafruit18",
+ 		.spi = &(struct spi_board_info) {
+ 			.modalias = "fb_st7735r",
+-- 
+2.7.4
+

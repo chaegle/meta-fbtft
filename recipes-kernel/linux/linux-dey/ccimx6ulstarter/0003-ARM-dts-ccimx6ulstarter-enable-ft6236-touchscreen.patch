@@ -1,0 +1,82 @@
+From 29e47a061eed4d3fe73f0eeba27c9655205a5192 Mon Sep 17 00:00:00 2001
+From: Cameron Haegle <cameronh@digi.com>
+Date: Fri, 23 Mar 2018 10:57:22 -0500
+Subject: [PATCH 3/3] ARM dts ccimx6ulstarter enable ft6236 touchscreen
+
+---
+ arch/arm/boot/dts/imx6ul-ccimx6ulstarter-id129.dts |  5 +++++
+ arch/arm/boot/dts/imx6ul-ccimx6ulstarter-wb.dts    |  5 +++++
+ arch/arm/boot/dts/imx6ul-ccimx6ulstarter.dtsi      | 18 ++++++++++++++++++
+ 3 files changed, 28 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx6ul-ccimx6ulstarter-id129.dts b/arch/arm/boot/dts/imx6ul-ccimx6ulstarter-id129.dts
+index ba1bd5c..68a974a 100644
+--- a/arch/arm/boot/dts/imx6ul-ccimx6ulstarter-id129.dts
++++ b/arch/arm/boot/dts/imx6ul-ccimx6ulstarter-id129.dts
+@@ -71,6 +71,11 @@
+ 	status = "okay";
+ };
+ 
++/* Focaltech touch controller */
++&ft6236 {
++        status = "okay";
++};
++
+ /* CAN1 (Raspberry PI Expansion header) */
+ //&can1 {
+ //	status = "okay";
+diff --git a/arch/arm/boot/dts/imx6ul-ccimx6ulstarter-wb.dts b/arch/arm/boot/dts/imx6ul-ccimx6ulstarter-wb.dts
+index ba1bd5c..e6a92cf 100644
+--- a/arch/arm/boot/dts/imx6ul-ccimx6ulstarter-wb.dts
++++ b/arch/arm/boot/dts/imx6ul-ccimx6ulstarter-wb.dts
+@@ -31,6 +31,11 @@
+ 	status = "okay";
+ };
+ 
++/* Focaltech touch controller */
++&ft6236 {
++        status = "okay";
++};
++
+ &caam_keyblob {
+ 	status = "okay";
+ };
+diff --git a/arch/arm/boot/dts/imx6ul-ccimx6ulstarter.dtsi b/arch/arm/boot/dts/imx6ul-ccimx6ulstarter.dtsi
+index 24d7294..cbc3469 100644
+--- a/arch/arm/boot/dts/imx6ul-ccimx6ulstarter.dtsi
++++ b/arch/arm/boot/dts/imx6ul-ccimx6ulstarter.dtsi
+@@ -58,6 +58,17 @@
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_i2c2>;
+ 	status = "disabled";
++
++        ft6236: ft6236@38 {
++            compatible = "focaltech,ft6236";
++            reg = <0x38>;
++            pinctrl-0 = <&pinctrl_focaltech_touch>; 
++            interrupt-parent = <&gpio3>;
++            interrupts = <12 IRQ_TYPE_EDGE_RISING>;
++            touchscreen-size-x = <240>;
++            touchscreen-size-y = <320>;
++            status = "disabled";
++        };
+ };
+ 
+ &pwm1 {
+@@ -136,6 +147,13 @@
+ 	pinctrl-0 = <&pinctrl_hog>;
+ 
+ 	imx6ul-ccimx6ul {
++
++                pinctrl_focaltech_touch: ft6236grp {
++                        fsl,pins = <
++                               MX6UL_PAD_LCD_DATA07__GPIO3_IO12       0x3000
++                       >;
++                };
++
+ 		pinctrl_ecspi3_master: ecspi3grp1 {
+ 			fsl,pins = <
+ 				MX6UL_PAD_UART2_RX_DATA__ECSPI3_SCLK	0x10b0
+-- 
+2.7.4
+
